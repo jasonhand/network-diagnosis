@@ -1,0 +1,59 @@
+[build]
+  # Build command
+  command = "npm run build"
+  # Publish directory (where the built files are located)
+  publish = "dist"
+  # Node.js version
+  node_version = "18"
+
+[build.environment]
+  # Environment variables for build
+  NODE_ENV = "production"
+  CI = "false"
+
+# Redirects for SPA (Single Page Application)
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
+
+# Headers for security and performance
+[[headers]]
+  for = "/*"
+  [headers.values]
+    # Security headers
+    X-Frame-Options = "DENY"
+    X-XSS-Protection = "1; mode=block"
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    # Performance headers
+    Cache-Control = "public, max-age=31536000, immutable"
+
+# Specific headers for HTML files
+[[headers]]
+  for = "*.html"
+  [headers.values]
+    Cache-Control = "public, max-age=0, must-revalidate"
+
+# Headers for static assets
+[[headers]]
+  for = "*.{js,css,woff,woff2,ttf,eot}"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+# Headers for images
+[[headers]]
+  for = "*.{png,jpg,jpeg,gif,svg,webp,ico}"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+# Headers for manifest and service worker
+[[headers]]
+  for = "*.{json,webmanifest}"
+  [headers.values]
+    Cache-Control = "public, max-age=0, must-revalidate"
+    Content-Type = "application/json"
+
+# Function configuration (if needed in the future)
+[functions]
+  directory = "netlify/functions" 
